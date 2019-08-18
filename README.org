@@ -1,0 +1,35 @@
+# Created 2019-08-18 Sun 13:19
+#+TITLE: Helm <3 Telega
+#+AUTHOR: Zhu Zihao
+* README
+
+** Installation
+
+=helm-telega= depends on =helm=, =telega=, =dash=, =memoize=. All of them can
+be downloaded from melpa.
+
+Clone this repo and put it under your emacs's =load-path=, and add this
+snippt to your configuration file
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'telega
+    (require 'helm-telega))
+#+END_SRC
+
+** Interactive functions
+
+| Functions                                 | Usage                                              |
+|-------------------------------------------+----------------------------------------------------|
+| =helm-telega-stickerset-choose=           | Choose sticker from stickerset with helm           |
+| =helm-telega-sticker-mini=                | Choose sticker from your favourite or recent usage |
+| =helm-telega-sticker-favourite-or-recent= | Alias of =helm-telega-sticker-mini=                |
+
+** Feature list
+
+- [X] Pick stickers from stickerset
+- [X] Pick stickers from recent usage and favourites
+- [ ] Pick stickers from emoji
+
+** Contributions
+
+PRs and issues are welcomed.

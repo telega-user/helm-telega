@@ -1,0 +1,5 @@
+# Byte-compiled el files
+*.elc
+
+# Generated doc
+*.html
