@@ -95,9 +95,27 @@
 
 ;;; Customize
 
-(defvar helm-telega-preview-limit 3)
-(defvar helm-telega-width 60)
-(defvar helm-telega-preivew-select-method 'head)
+(defgroup helm-telega ()
+  "Helm-telega"
+  :group 'convenience
+  :prefix "helm-telega-")
+
+(defcustom helm-telega-stickerset-preview-count 3
+  "The count of preview sticker will be shown in stickerset completing read"
+  :group 'helm-telega
+  :type 'integer)
+
+(defcustom helm-telega-preivew-select-method 'head
+  "The method to pick preview sticker from stickers"
+  :group 'helm-telega
+  :type '(choice
+          (const :tag "From head" head)
+          (const :tag "Randomly" 'random)))
+
+(defcustom helm-telega-title-width 60
+  "Max length a title can use"
+  :group 'helm-telega
+  :type 'integer)
 
 (defvar helm-telega--current-chat nil
   "A variable to hold current chat for helm.")
@@ -186,9 +204,9 @@ command that executes the ACTION."
 
 Sign: (-> Str Str)
 
-If STR is shorter than `helm-telega-width', pad it with space,
+If STR is shorter than `helm-telega-title-width', pad it with space,
 otherwise truncate it."
-  (truncate-string-to-width str helm-telega-width nil ?\s ?\.))
+  (truncate-string-to-width str helm-telega-title-width nil ?\s ?\.))
 
 (defsubst helm-telega--set-of-sticker (sticker)
   "Return the set of STICKER.
@@ -236,7 +254,9 @@ With prefix arg, save link to clipboard instead of kill ring."
              name dest)))
 
 (defun helm-telega--make-action-executor (action extor-name)
-  "Make executor named EXTOR-NAME for ACTION."
+  "Make executor named EXTOR-NAME for ACTION.
+
+Sign: (-> Sym Sym Sym)"
   (prog1 (defalias extor-name `(lambda ()
                                  (interactive)
                                  (with-helm-alive-p
@@ -289,7 +309,7 @@ Sign: (-> Sticker (Cons Str Sticker))"
 (defclass helm-telega-source-sticker (helm-source-sync)
   ((init :initform #'helm-telega--update-chat!)
    ;; NOTE: Without this, resume a sticker source will use the chat
-   ;; at where first time the source was created, which is counterintitutive.
+   ;; at chat buffer where the source was created, which is counterintitutive.
    (resume :initform #'helm-telega--update-chat!)
    (action :initform (helm-telega--make-actions
                       helm-telega--sticker-source-action-spec
@@ -323,7 +343,7 @@ Sign: (-> (Seqof Stickerset))"
   "Map each element in SSETS to a stickerset candidate.
 
 Sign: (-> (Seqof Stickerset) (Listof (Cons Str Stickerset)))"
-  (let* ((count helm-telega-preview-limit)
+  (let* ((count helm-telega-stickerset-preview-count)
          (pr (make-progress-reporter "Collecting stickersets"
                                      0 (seq-length ssets))))
     (seq-map-indexed
@@ -374,7 +394,6 @@ Sign: (-> (Seqof Stickerset) (Listof (Cons Str Stickerset)))"
 (defalias 'helm-telega-sticker-favourite-or-recent #'helm-telega-sticker-mini)
 
 ;; * Footer
-
 (provide 'helm-telega)
 
 ;; Local Variables:
