@@ -1,7 +1,21 @@
-# Created 2019-08-18 Sun 13:19
+# Created 2019-08-18 Sun 13:43
 #+TITLE: Helm <3 Telega
 #+AUTHOR: Zhu Zihao
 * README
+
+** Screenshots
+
+*** Insert
+[[file:screenshot/insert.gif]]
+
+*** Describe sticker
+[[file:screenshot/describe.gif]]
+
+*** Toggling favourites
+[[file:screenshot/favourites.gif]]
+
+*** Share stickers
+[[file:screenshot/share.gif]]
 
 ** Installation
 
