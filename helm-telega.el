@@ -277,20 +277,27 @@ Sign: (-> Sym Sym Sym)"
                              'helm-telega-do-share-sticker-link))
     (define-key (kbd "M-F") (helm-telega--make-action-executor
                              'helm-telega-sticker-toggle-favourite!
-                             'helm-telega-do-sticker-toggle-favourite)))
+                             'helm-telega-do-sticker-toggle-favourite))
+    (define-key (kbd "C-c h") (helm-telega--make-action-executor
+                               'helm-telega-describe-set-of-sticker!
+                               'helm-telega-do-describe-set-of-sticker)))
   "The keymap used in `helm-telega-source-sticker'")
 
 (defvar helm-telega--sticker-source-action-spec
-  '(("Maybe insert" helm-telega-maybe-insert-sticker-to-chat!)
-    ("Toggle favourite(s), `%k'" helm-telega-sticker-toggle-favourite!
+  '(("Maybe insert"
+     helm-telega-maybe-insert-sticker-to-chat!)
+    ("Toggle favourite(s), `%k'"
+     helm-telega-sticker-toggle-favourite!
      helm-telega-do-sticker-toggle-favourite)
-    ("Describe set" helm-telega-describe-set-of-sticker!)
+    ("Describe set, `%k'"
+     helm-telega-describe-set-of-sticker!
+     helm-telega-do-describe-set-of-sticker)
     ("Save stickerset link to kill ring, `%k, %u to system clipboard'"
-     helm-telega-share-sticker-link! helm-telega-do-share-sticker-link))
+     helm-telega-share-sticker-link!
+     helm-telega-do-share-sticker-link))
   "The action spec of `helm-telega-source-sticker'.
 
 See `helm-telega--make-actions' for more information.")
-
 
 ;;; Source
 
@@ -374,7 +381,8 @@ Sign: (-> (Seqof Stickerset) (Listof (Cons Str Stickerset)))"
   (helm-comp-read prompt ssets-cand
                   :match-part #'helm-telega--get-real-match
                   :name "Stickersets"
-                  :fuzzy helm-telega-sticker-use-fuzzy))
+                  :fuzzy helm-telega-sticker-use-fuzzy
+                  :must-match t))
 
 ;;; Interactive functions
 
