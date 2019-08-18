@@ -152,7 +152,7 @@ Method can be one of following:
            (setq num-seq (delq idx num-seq))))
        (nreverse result)))))
 
-;; NOTE: I don't whether it's safe to memoize this,
+;; XXX: I don't whether it's safe to memoize this,
 ;; would display image change without modifying sticker?
 (defmemoize helm-telega--make-sticker-image (sticker)
   "Create a display image from STICKER.
