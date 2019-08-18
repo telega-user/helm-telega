@@ -77,7 +77,6 @@
 ;;; Code:
 
 (require 'helm)
-(require 'helm-lib)
 (require 'helm-mode)                    ;For `helm-comp-read'
 
 (require 'telega)
@@ -167,7 +166,7 @@ stand for the key bindings of `universal-argument' and EXECUTOR in KEYMAP-SYM.
 ACTION should be a helm action, EXECUTOR if supplied, should be an interactive
 command that executes the ACTION."
   (cl-labels ((subst-cmd (command)
-                (let ((template (helm-aif keymap-sym
+                (let ((template (--if-let keymap-sym
                                     (format "\\<%s>\\[%%s]" it)
                                   "\\[%s]")))
                   (format template command))))
@@ -202,7 +201,7 @@ Sign: (-> Sticer Stickerset)"
 
 (defun helm-telega-maybe-insert-sticker-to-chat! (_cand)
   "Insert marked candidates into chat if available."
-  (helm-aif helm-telega--current-chat
+  (--if-let helm-telega--current-chat
       (with-telega-chatbuf it
         (mapc #'telega-chatbuf-sticker-insert
               (helm-marked-candidates :all-sources t)))))
