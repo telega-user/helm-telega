@@ -117,6 +117,11 @@
   :group 'helm-telega
   :type 'integer)
 
+(defcustom helm-telega-sticker-use-fuzzy nil
+  "Enable fuzzy match for sticker(set) completion"
+  :group 'helm-telega
+  :type 'boolean)
+
 (defvar helm-telega--current-chat nil
   "A variable to hold current chat for helm.")
 
@@ -314,7 +319,8 @@ Sign: (-> Sticker (Cons Str Sticker))"
    (action :initform (helm-telega--make-actions
                       helm-telega--sticker-source-action-spec
                       'helm-telega-sticker-source-keymap))
-   (keymap :initform helm-telega-sticker-source-keymap))
+   (keymap :initform helm-telega-sticker-source-keymap)
+   (fuzzy-match :initform helm-telega-sticker-use-fuzzy))
   "Helm source for stickers completion.")
 
 (defsubst helm-telega--make-stickers-source! (title stickers)
@@ -367,7 +373,8 @@ Sign: (-> (Seqof Stickerset) (Listof (Cons Str Stickerset)))"
   "Completing read STICKERSETS with PROMPT."
   (helm-comp-read prompt ssets-cand
                   :match-part #'helm-telega--get-real-match
-                  :name "Stickersets"))
+                  :name "Stickersets"
+                  :fuzzy helm-telega-sticker-use-fuzzy))
 
 ;;; Interactive functions
 
