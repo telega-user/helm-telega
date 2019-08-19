@@ -269,7 +269,6 @@ Sign: (-> Sym Sym Sym)"
            (format "Run action `%s'." action))
     (put extor-name 'helm-only t)))
 
-;;;###autoload
 (defvar helm-telega-sticker-source-keymap
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-s") (helm-telega--make-action-executor
