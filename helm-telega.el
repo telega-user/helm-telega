@@ -271,16 +271,17 @@ Sign: (-> Sym Sym Sym)"
 
 ;;;###autoload
 (defvar helm-telega-sticker-source-keymap
-  (-doto (make-sparse-keymap)
-    (define-key (kbd "C-s") (helm-telega--make-action-executor
-                             'helm-telega-share-sticker-link!
-                             'helm-telega-do-share-sticker-link))
-    (define-key (kbd "M-F") (helm-telega--make-action-executor
-                             'helm-telega-sticker-toggle-favourite!
-                             'helm-telega-do-sticker-toggle-favourite))
-    (define-key (kbd "C-c h") (helm-telega--make-action-executor
-                               'helm-telega-describe-set-of-sticker!
-                               'helm-telega-do-describe-set-of-sticker)))
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-s") (helm-telega--make-action-executor
+                                 'helm-telega-share-sticker-link!
+                                 'helm-telega-do-share-sticker-link))
+    (define-key map (kbd "M-F") (helm-telega--make-action-executor
+                                 'helm-telega-sticker-toggle-favourite!
+                                 'helm-telega-do-sticker-toggle-favourite))
+    (define-key map (kbd "C-c h") (helm-telega--make-action-executor
+                                   'helm-telega-describe-set-of-sticker!
+                                   'helm-telega-do-describe-set-of-sticker))
+    map)
   "The keymap used in `helm-telega-source-sticker'")
 
 (defvar helm-telega--sticker-source-action-spec
