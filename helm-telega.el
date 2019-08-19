@@ -122,9 +122,6 @@
   :group 'helm-telega
   :type 'boolean)
 
-(defvar helm-telega--current-chat nil
-  "A variable to hold current chat for helm.")
-
 ;;; Utils
 
 (defalias 'helm-telega-get-prop #'plist-get
@@ -224,10 +221,10 @@ Sign: (-> Sticer Stickerset)"
 
 (defun helm-telega-maybe-insert-sticker-to-chat! (_cand)
   "Insert marked candidates into chat if available."
-  (--if-let helm-telega--current-chat
-      (with-telega-chatbuf it
-        (mapc #'telega-chatbuf-sticker-insert
-              (helm-marked-candidates :all-sources t)))))
+  (--when-let (helm-attr 'chat)
+    (with-telega-chatbuf it
+      (mapc #'telega-chatbuf-sticker-insert
+            (helm-marked-candidates :all-sources t)))))
 
 (defun helm-telega-sticker-toggle-favourite! (_cand)
   "Toggling favourite of marked candidates."
@@ -238,7 +235,7 @@ Sign: (-> Sticer Stickerset)"
 (defun helm-telega-describe-set-of-sticker! (cand)
   "Describe stickerset of CAND."
   (telega-describe-stickerset (helm-telega--set-of-sticker cand)
-                              helm-telega--current-chat))
+                              (helm-attr 'chat)))
 
 (defun helm-telega-share-sticker-link! (cand)
   "Share stickerset link of CAND.
@@ -315,8 +312,8 @@ Sign: (-> Sticker (Cons Str Sticker))"
         (cons sticker))))
 
 (defun helm-telega--update-chat! ()
-  "Update `helm-telega--current-chat'"
-  (setq helm-telega--current-chat telega-chatbuf--chat))
+  "Update chat for current helm source."
+  (setf (helm-attr 'chat) telega-chatbuf--chat))
 
 (defclass helm-telega-source-sticker (helm-source-sync)
   ((init :initform #'helm-telega--update-chat!)
@@ -327,7 +324,9 @@ Sign: (-> Sticker (Cons Str Sticker))"
                       helm-telega--sticker-source-action-spec
                       'helm-telega-sticker-source-keymap))
    (keymap :initform helm-telega-sticker-source-keymap)
-   (fuzzy-match :initform helm-telega-sticker-use-fuzzy))
+   (fuzzy-match :initform helm-telega-sticker-use-fuzzy)
+   (chat :initform nil
+         :documentation "The chat used for sticker insertion."))
   "Helm source for stickers completion.")
 
 (defsubst helm-telega--make-stickers-source! (title stickers)
