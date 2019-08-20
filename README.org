@@ -19,7 +19,7 @@
 
 ** Installation
 
-=helm-telega= depends on =helm=, =telega=, =dash=, =memoize=. All of them can
+=helm-telega= depends on =helm=, =telega=, =dash=. All of them can
 be downloaded from melpa.
 
 Clone this repo and put it under your emacs's =load-path=, and add this

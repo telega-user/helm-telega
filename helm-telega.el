@@ -44,7 +44,7 @@
 
 ;; ** Installation
 
-;; =helm-telega= depends on =helm=, =telega=, =dash=, =memoize=. All of them can
+;; =helm-telega= depends on =helm=, =telega=, =dash=. All of them can
 ;; be downloaded from melpa.
 
 ;; Clone this repo and put it under your emacs's =load-path=, and add this
@@ -87,7 +87,6 @@
 (require 'cl-lib)
 (require 'pcase)
 (require 'eieio)
-(require 'memoize)                      ;`defmemoize'
 (require 'seq)                          ;Sticker collection operation
 (require 'format-spec)
 
@@ -154,9 +153,7 @@ Method can be one of following:
            (setq num-seq (delq idx num-seq))))
        (nreverse result)))))
 
-;; XXX: I don't whether it's safe to memoize this,
-;; would display image change without modifying sticker?
-(defmemoize helm-telega--make-sticker-image (sticker)
+(defun helm-telega--make-sticker-image (sticker)
   "Create a display image from STICKER.
 
 Sign: (-> Sticker Str)"
