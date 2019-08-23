@@ -5,7 +5,7 @@
 
 ;; Author: Zhu Zihao <all_but_last@163.com>
 ;; URL: https://github.com/telega-user/helm-telega
-;; Version: 0.0.1
+;; Version: 1.0.0
 ;; Package-Requires: ((emacs "26.1") (memoize "1.1.0") (dash "2.16.0") (helm "3.2") (telega "20190818"))
 ;; Keywords: convenience
 
