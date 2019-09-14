@@ -300,7 +300,7 @@ See `helm-telega--make-actions' for more information.")
   "Make a sticker candidate from STICKER.
 
 Sign: (-> Sticker (Cons Str Sticker))"
-  (let* ((emoji (telega-sticker-emoji sticker))
+  (let* ((emoji (telega-tl-str sticker :emoji 'no-props))
          (name (or (telega-emoji-name emoji) "(No abbrev)"))
          (str (format "%s %s" emoji name)))
     (-> str
